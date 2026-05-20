@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const PIN_ROTATIONS = [-2.4, 1.6, -1.1, 2.2, -1.8, 1.2, -2.0, 1.4, -1.5, 2.5, -1.3, 1.8];
-const SLOT_HEIGHTS  = [380, 280, 440, 320, 460, 360, 420, 340, 300];
+const SLOT_HEIGHTS        = [380, 280, 440, 320, 460, 360, 420, 340, 300];
+const SLOT_HEIGHTS_MOBILE = [160, 120, 180, 140, 190, 150, 170, 130, 145];
 const SLOTS = 9;
 const ARENA_SLUG = 'with-love-pvhkjbfhfoq';
 
@@ -57,6 +59,7 @@ function MoodPin({ pin, rotation, swapping, onClick }) {
 }
 
 export function MoodBoard() {
+  const isMobile = useIsMobile();
   const [moodPool, setMoodPool] = useState([]);
   const [pins, setPins]         = useState([]);
   const [swappingIdx, setSwapping] = useState(-1);
@@ -67,6 +70,8 @@ export function MoodBoard() {
     const t = setTimeout(() => setEnterDone(true), 50);
     return () => clearTimeout(t);
   }, []);
+
+  const slots = isMobile ? 4 : SLOTS;
 
   useEffect(() => {
     fetch(`https://api.are.na/v2/channels/${ARENA_SLUG}/contents?per=100`)
@@ -88,10 +93,10 @@ export function MoodBoard() {
           .filter(b => b.src);
         moodPoolRef.current = images;
         setMoodPool(images);
-        setPins(images.slice(0, Math.min(SLOTS, images.length)));
+        setPins(images.slice(0, Math.min(slots, images.length)));
       })
       .catch(() => {});
-  }, []);
+  }, [slots]);
 
   useEffect(() => {
     if (!pins.length) return;
@@ -138,12 +143,12 @@ export function MoodBoard() {
   };
 
   return (
-    <section style={{ padding: '0 60px 80px', maxWidth: '1100px', margin: '0 auto' }}>
-      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '10px' }}>
+    <section style={{ padding: isMobile ? '0 24px 60px' : '0 60px 80px', maxWidth: '1100px', margin: '0 auto' }}>
+      <div style={{ display: 'flex', alignItems: isMobile ? 'flex-start' : 'baseline', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '10px', flexDirection: isMobile ? 'column' : 'row' }}>
         <div>
           <h2 style={{
             fontFamily: "'Newsreader', serif", fontStyle: 'italic',
-            fontSize: '50px', color: 'var(--text)', marginBottom: '8px', marginTop: '16px',
+            fontSize: isMobile ? '36px' : '50px', color: 'var(--text)', marginBottom: '8px', marginTop: '16px',
             lineHeight: 1.05,
           }}>a look through the lens</h2>
           <p style={{
@@ -152,12 +157,14 @@ export function MoodBoard() {
           }}>take a look at some of my favorite photos i've taken recently
           </p>
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '10px' }}>
-          <div style={{
-            fontFamily: "'Caveat', cursive", fontWeight: 600,
-            fontSize: '22px', color: 'var(--lavender-mid)',
-            transform: 'rotate(-3deg)',
-          }}>↻ shuffles every few seconds</div>
+        <div style={{ display: 'flex', flexDirection: isMobile ? 'row' : 'column', alignItems: isMobile ? 'center' : 'flex-end', gap: '10px', flexWrap: 'wrap' }}>
+          {!isMobile && (
+            <div style={{
+              fontFamily: "'Caveat', cursive", fontWeight: 600,
+              fontSize: '22px', color: 'var(--lavender-mid)',
+              transform: 'rotate(-3deg)',
+            }}>↻ shuffles every few seconds</div>
+          )}
           <a
             href={`https://www.are.na/kate-lock/${ARENA_SLUG}`}
             target="_blank"
@@ -173,10 +180,17 @@ export function MoodBoard() {
             onMouseEnter={e => { e.currentTarget.style.background = 'var(--lavender)'; e.currentTarget.style.color = 'white'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--lavender-mid)'; }}
           >view on are.na ↗</a>
+          {isMobile && (
+            <div style={{
+              fontFamily: "'Caveat', cursive", fontWeight: 600,
+              fontSize: '18px', color: 'var(--lavender-mid)',
+              transform: 'rotate(-2deg)',
+            }}>↻ shuffles</div>
+          )}
         </div>
       </div>
 
-      <div style={{ columnCount: 3, columnGap: '18px', marginTop: '36px' }}>
+      <div style={{ columnCount: isMobile ? 2 : 3, columnGap: '14px', marginTop: '36px' }}>
         {pins.map((pin, i) => (
           <div key={i} style={{
             opacity: enterDone ? 1 : 0,
@@ -184,8 +198,8 @@ export function MoodBoard() {
             transition: `opacity 0.6s ease ${i * 80}ms, transform 0.7s cubic-bezier(0.22,1,0.36,1) ${i * 80}ms`,
           }}>
             <MoodPin
-              pin={{ ...pin, h: SLOT_HEIGHTS[i % SLOT_HEIGHTS.length] }}
-              rotation={PIN_ROTATIONS[i % PIN_ROTATIONS.length]}
+              pin={{ ...pin, h: isMobile ? SLOT_HEIGHTS_MOBILE[i % SLOT_HEIGHTS_MOBILE.length] : SLOT_HEIGHTS[i % SLOT_HEIGHTS.length] }}
+              rotation={isMobile ? PIN_ROTATIONS[i % PIN_ROTATIONS.length] * 0.5 : PIN_ROTATIONS[i % PIN_ROTATIONS.length]}
               swapping={swappingIdx === i}
               onClick={() => handleClick(i)}
             />

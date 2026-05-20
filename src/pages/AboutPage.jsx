@@ -28,11 +28,6 @@ export function AboutPage({ setPage }) {
           gap: isMobile ? '40px' : '64px',
           alignItems: 'center', marginBottom: isMobile ? '48px' : '80px',
         }}>
-          {isMobile && (
-            <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <PhotoStack />
-            </div>
-          )}
           <div>
             <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '12px', color: 'var(--blue)', marginBottom: '14px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>hi, nice to meet you</div>
             <h1 style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: isMobile ? '44px' : '60px', color: 'var(--text)', lineHeight: 1.05, marginBottom: '28px' }}>
@@ -47,11 +42,9 @@ export function AboutPage({ setPage }) {
               I'm obsessed with the intersection of product, design, and human experience. I believe the best tech sparks joy, reduces friction, and — if you're lucky — makes you smile.
             </p>
           </div>
-          {!isMobile && (
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: '20px' }}>
-              <PhotoStack />
-            </div>
-          )}
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: isMobile ? '0' : '20px' }}>
+            <PhotoStack />
+          </div>
         </div>
       </section>
 

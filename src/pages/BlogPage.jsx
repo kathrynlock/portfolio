@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
+import { useIsMobile } from '../hooks/useIsMobile';
 import { PATTERN_DEFS, patternKeyFor } from '../utils/patterns';
 
 /* ── DATA ──────────────────────────────────────────────────────── */
@@ -247,8 +248,43 @@ function LayoutPolaroid({ posts, onOpen, variedPatterns }) {
   );
 }
 
+/* ── LIST LAYOUT (mobile) ──────────────────────────────────────── */
+function LayoutList({ posts, onOpen }) {
+  return (
+    <ul style={{ listStyle: 'none', padding: 0 }}>
+      {posts.map((p, i) => (
+        <li
+          key={p.id}
+          onClick={() => onOpen(p)}
+          style={{
+            display: 'grid', gridTemplateColumns: '1fr auto',
+            gap: '12px', alignItems: 'center',
+            padding: '20px 4px',
+            borderTop: i === 0 ? '1px solid rgba(138,115,151,0.3)' : 'none',
+            borderBottom: '1px solid rgba(138,115,151,0.3)',
+            cursor: 'pointer',
+          }}
+        >
+          <div>
+            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '9px', color: 'var(--lavender-mid)', letterSpacing: '1.5px', textTransform: 'uppercase', marginBottom: '6px' }}>
+              {formatDate(p.date)} · {p.readMins} min
+            </div>
+            <div style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontWeight: 400, fontSize: '22px', color: 'var(--text)', lineHeight: 1.2, marginBottom: '6px' }}>{p.title}</div>
+            <div style={{ fontFamily: "'EB Garamond', serif", fontSize: '14px', color: 'var(--text-mid)', fontStyle: 'italic', lineHeight: 1.4, marginBottom: '8px' }}>{p.excerpt}</div>
+            <div style={{ display: 'flex', gap: '5px', flexWrap: 'wrap' }}>
+              {p.tags.map(t => <TagChip key={t} tag={t} size="sm"/>)}
+            </div>
+          </div>
+          <span style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: '22px', color: 'var(--lavender-mid)', flexShrink: 0 }}>→</span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
 /* ── BLOG INDEX ────────────────────────────────────────────────── */
 function BlogIndex({ openPost, variedPatterns }) {
+  const isMobile = useIsMobile();
   const [query, setQuery]       = useState('');
   const [activeTag, setActiveTag] = useState('all');
 
@@ -264,17 +300,17 @@ function BlogIndex({ openPost, variedPatterns }) {
 
   return (
     <div style={{ minHeight: '100vh', paddingTop: '90px' }}>
-      <section style={{ padding: '60px 60px 36px', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ marginBottom: '40px' }}>
-          <h1 style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: '68px', color: 'var(--text)', lineHeight: 1, marginBottom: '10px' }}>
+      <section style={{ padding: isMobile ? '40px 24px 36px' : '60px 60px 36px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '32px' }}>
+          <h1 style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: isMobile ? '52px' : '68px', color: 'var(--text)', lineHeight: 1, marginBottom: '10px' }}>
             some thoughts
           </h1>
-          <p style={{ fontFamily: "'EB Garamond', serif", fontSize: '19px', color: 'var(--text-mid)', lineHeight: 1.55, fontStyle: 'italic', maxWidth: '52ch' }}>
-            Essentially my notes app but slightly more polished. 
+          <p style={{ fontFamily: "'EB Garamond', serif", fontSize: isMobile ? '17px' : '19px', color: 'var(--text-mid)', lineHeight: 1.55, fontStyle: 'italic', maxWidth: '52ch' }}>
+            Essentially my notes app but slightly more polished.
           </p>
         </div>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: '24px', alignItems: 'center', marginBottom: '44px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', marginBottom: '28px' }}>
           <label style={{
             display: 'flex', alignItems: 'center', gap: '12px',
             background: 'white', borderRadius: '30px', padding: '12px 20px',
@@ -303,7 +339,7 @@ function BlogIndex({ openPost, variedPatterns }) {
             )}
           </label>
 
-          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+          <div style={{ display: 'flex', gap: '8px', flexWrap: 'wrap' }}>
             {['all', ...BLOG_TAGS].map(t => {
               const isActive = activeTag === t;
               return (
@@ -321,7 +357,7 @@ function BlogIndex({ openPost, variedPatterns }) {
           </div>
         </div>
 
-        <div style={{ fontFamily: 'Outfit', fontSize: '12px', color: 'var(--text-light)', fontWeight: 600, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '32px' }}>
+        <div style={{ fontFamily: 'Outfit', fontSize: '12px', color: 'var(--text-light)', fontWeight: 600, letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '24px' }}>
           {filtered.length} {filtered.length === 1 ? 'entry' : 'entries'}
           {activeTag !== 'all' && <span> · in {activeTag}</span>}
           {query && <span> · matching "{query}"</span>}
@@ -332,6 +368,8 @@ function BlogIndex({ openPost, variedPatterns }) {
             <div style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: '32px', color: 'var(--lavender-mid)', marginBottom: '10px' }}>nothing here yet</div>
             <p style={{ fontFamily: "'EB Garamond', serif", fontSize: '17px', color: 'var(--text-mid)', fontStyle: 'italic' }}>Try a different search or tag.</p>
           </div>
+        ) : isMobile ? (
+          <LayoutList posts={filtered} onOpen={openPost}/>
         ) : (
           <LayoutPolaroid posts={filtered} onOpen={openPost} variedPatterns={variedPatterns}/>
         )}
@@ -370,7 +408,7 @@ function BlogPostPage({ post, openPost, back, variedPatterns }) {
         <div style={{ height: '100%', width: `${progress * 100}%`, background: 'var(--lavender-mid)', transition: 'width 0.08s linear' }}/>
       </div>
 
-      <article style={{ maxWidth: '780px', margin: '0 auto', padding: '30px 40px 100px' }}>
+      <article style={{ maxWidth: '780px', margin: '0 auto', padding: '30px 24px 100px' }}>
         <button onClick={back} style={{
           background: 'none', border: 'none', cursor: 'pointer',
           fontFamily: 'Outfit', fontSize: '12px', fontWeight: 800,

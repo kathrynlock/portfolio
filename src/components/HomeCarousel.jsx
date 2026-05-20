@@ -6,7 +6,7 @@ export function HomeCarousel({ setPage }) {
   const [idx, setIdx] = useState(0);
   const isMobile = useIsMobile();
   const preview = PROJECTS.slice(0, 4);
-  const cardW = isMobile ? Math.min(window.innerWidth - 48, 340) : 290;
+  const cardW = 290;
   const gap = 20;
 
   useEffect(() => {
@@ -18,17 +18,22 @@ export function HomeCarousel({ setPage }) {
     <div>
       <div style={{ overflow: 'hidden', borderRadius: '16px' }}>
         <div style={{
-          display: 'flex', gap: `${gap}px`,
+          display: 'flex',
+          gap: isMobile ? 0 : `${gap}px`,
           transition: 'transform 0.65s cubic-bezier(0.4,0,0.2,1)',
-          transform: `translateX(${-(idx * (cardW + gap))}px)`,
+          transform: isMobile
+            ? `translateX(${-idx * 100}%)`
+            : `translateX(${-(idx * (cardW + gap))}px)`,
         }}>
           {preview.map((p, i) => (
             <div key={p.id} className="lift" onClick={() => setPage('projects')} style={{
-              minWidth: `${cardW}px`, height: isMobile ? '230px' : '280px',
+              minWidth: isMobile ? '100%' : `${cardW}px`,
+              width: isMobile ? '100%' : undefined,
+              height: isMobile ? '230px' : '280px',
               background: 'white', borderRadius: '22px',
               border: '2px solid rgba(255,255,255,0.85)',
               boxShadow: i === idx ? '8px 8px 0px rgba(58,47,74,0.13)' : '4px 4px 0px rgba(58,47,74,0.07)',
-              transform: i === idx ? 'scale(1.03)' : 'scale(0.97)',
+              transform: i === idx ? (isMobile ? 'none' : 'scale(1.03)') : (isMobile ? 'none' : 'scale(0.97)'),
               transition: 'all 0.5s ease',
               display: 'flex', flexDirection: 'column', flexShrink: 0, overflow: 'hidden',
             }}>
