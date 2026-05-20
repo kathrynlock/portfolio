@@ -1,0 +1,137 @@
+:root {
+  --font-display: 'Newsreader', 'Georgia', serif;
+  --font-sans:    'Outfit', system-ui, sans-serif;
+  --font-body:    'EB Garamond', 'Georgia', serif;
+  --font-mono:    'JetBrains Mono', 'SF Mono', Menlo, monospace;
+  --font-script:  'Caveat', cursive;
+
+  /* heritage pressed-flower palette */
+  --lavender: #C9B8D9;
+  --lavender-light: #E8E0EC;
+  --lavender-mid: #8A7397;
+  --yellow: #EFE7CE;
+  --yellow-mid: #D8C9A0;
+  --blue: #7B8A6E;
+  --blue-light: #DDE3D2;
+  --pink: #D4B5B0;
+  --pink-mid: #B88A85;
+  --mint: #C2CDB8;
+  --moss: #5D6E4F;
+  --plum: #685E7B;
+  --bg: #F5EFE3;
+  --paper: #FBF6EB;
+  --text: #3A2F4A;
+  --text-mid: #6B5F73;
+  --text-light: #A89BAA;
+  --white: #FFFFFF;
+  --ink: #2A1F3A;
+}
+
+/* paper grain overlay */
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background-image:
+    radial-gradient(circle at 12% 18%, rgba(138,115,151,0.04) 0, transparent 35%),
+    radial-gradient(circle at 82% 72%, rgba(123,138,110,0.05) 0, transparent 40%),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.23  0 0 0 0 0.18  0 0 0 0 0.29  0 0 0 0.06 0'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>");
+  mix-blend-mode: multiply;
+  opacity: 0.6;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 400;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  min-height: 100vh;
+  letter-spacing: 0.005em;
+}
+
+button { font-family: inherit; }
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--lavender-mid); border-radius: 10px; }
+
+/* Font helpers */
+.display-italic { font-family: 'Newsreader', serif; font-style: italic; font-weight: 400; }
+.display-roman  { font-family: 'Newsreader', serif; font-weight: 400; letter-spacing: 0.005em; }
+.eyebrow {
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 11px;
+  color: var(--lavender-mid);
+}
+.meta { font-family: 'JetBrains Mono', monospace; font-weight: 500; letter-spacing: 0.18em; text-transform: uppercase; font-size: 11px; }
+
+/* Animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(28px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pageIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes currentlyIn {
+  from { opacity: 0; transform: rotate(-2.2deg) translateY(20px); }
+  to   { opacity: 1; transform: rotate(-2.2deg) translateY(0); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33%       { transform: translateY(-10px) rotate(1deg); }
+  66%       { transform: translateY(-5px) rotate(-1deg); }
+}
+@keyframes floatB {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50%       { transform: translateY(-12px) rotate(1.5deg); }
+}
+@keyframes floatC {
+  0%, 100% { transform: translateY(0px) rotate(1deg); }
+  40%       { transform: translateY(-8px) rotate(-0.5deg); }
+}
+@keyframes wigglePop {
+  0%   { transform: scale(1) rotate(0deg); }
+  25%  { transform: scale(1.08) rotate(-2deg); }
+  50%  { transform: scale(1.05) rotate(2deg); }
+  75%  { transform: scale(1.08) rotate(-1deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+.page-animate { animation: pageIn 0.5s cubic-bezier(0.22,1,0.36,1) forwards; }
+
+/* Hover lift */
+.lift {
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  cursor: pointer;
+}
+.lift:hover {
+  transform: translateY(-5px) rotate(-0.5deg);
+}
+
+/* Nav pill */
+.nav-btn { transition: all 0.2s ease; border-radius: 24px; }
+.nav-btn:hover { background: rgba(201,184,217,0.25) !important; }
+
+/* Project filter */
+.filter-btn { transition: all 0.18s ease; }
+.filter-btn:hover { transform: translateY(-2px); }
+
+/* Sticker */
+.sticker { transition: transform 0.3s ease; }
+.sticker:hover { animation: wigglePop 0.5s ease; }
