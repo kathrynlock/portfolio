@@ -1,6 +1,23 @@
-# wrangler files
-.wrangler
-.dev.vars*
-!.dev.vars.example
+# dependencies
+node_modules/
+
+# vite
+*.local
+
+# env & secrets
 .env*
 !.env.example
+
+# wrangler / cloudflare
+.wrangler/
+.dev.vars*
+!.dev.vars.example
+
+# macos
+.DS_Store
+
+# editors
+.vscode/
+.idea/
+*.swp
+*.swo
