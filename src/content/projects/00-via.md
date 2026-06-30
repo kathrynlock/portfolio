@@ -2,7 +2,7 @@
 title: Via
 tag: Product Management
 brief: Community-driven campus navigation for UT Austin.
-desc: A crowdsourced campus navigation app for UT Austin students. Led product, conducted 8 user interviews, translated insights into product requirements, and wrote the PRD and feature specs to streamline AI-assisted development across a 4-person team.
+desc: A crowdsourced campus navigation app for UT Austin students. Led product, conducted 8 user interviews, translated insights into product requirements, and wrote a comprehensive PRD and feature specs to streamline AI-assisted development across a 4-person team.
 skills: [User Research, Growth, Competitive Analysis]
 color: "#C8D8E8"
 dark: "#3A6080"
@@ -14,7 +14,7 @@ github:
 
 https://youtube.com/shorts/XDey0oCIutU
 
-The University of Texas at Austin is 400 acres and has 50,000 students. Google Maps can get you to the front door, but it can't tell you which entrance of the CBA is actually open on the weekend, which stretch of West Campus feels unsafe at midnight, or that Speedway will be stopped traffic Mondays at 11:45 AM. That information exists (in the heads of seasoned students) but there's no system for passing this knowledge around.
+The University of Texas at Austin is 400 acres and has 50,000 students. Google Maps can get you to the front door, but it can't tell you which entrance of the CBA is actually open on the weekend, which streets in Wampus (West Campus) feels unsafe at midnight, or that Speedway will be a mob on Mondays at 11:45 AM. That information exists (in the heads of seasoned students) but there's no system for passing this knowledge around.
 
 Via is a community route-sharing app that makes that campus navigation accessible and searchable for everyone. 
 

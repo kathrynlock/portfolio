@@ -53,6 +53,30 @@ function youtubeId(url) {
   return m ? m[1] : null;
 }
 
+function isSlidesUrl(url) {
+  return /docs\.google\.com\/presentation/.test(url);
+}
+
+function SlidesEmbed({ src }) {
+  return (
+    <div style={{ margin: '40px 0' }}>
+      <div style={{
+        borderRadius: '20px', overflow: 'hidden',
+        border: '2px solid rgba(255,255,255,0.9)',
+        boxShadow: '6px 6px 0 rgba(58,47,74,0.08)',
+        position: 'relative', paddingBottom: '56.25%', height: 0,
+      }}>
+        <iframe
+          src={src}
+          title="Slideshow"
+          allowFullScreen
+          style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 'none' }}
+        />
+      </div>
+    </div>
+  );
+}
+
 function YouTubeEmbed({ id, isMobile }) {
   return (
     <div style={{ margin: '40px 0' }}>
@@ -121,8 +145,10 @@ function ProjectBody({ body, color, isMobile }) {
 
         // YouTube / Vimeo bare URL on its own line
         if (/^https?:\/\//.test(block.trim()) && !block.includes('\n')) {
-          const ytId = youtubeId(block.trim());
+          const url = block.trim();
+          const ytId = youtubeId(url);
           if (ytId) return <YouTubeEmbed key={i} id={ytId} isMobile={isMobile} />;
+          if (isSlidesUrl(url)) return <SlidesEmbed key={i} src={url} />;
         }
 
         // image/video detection — each line may be ![alt](url)

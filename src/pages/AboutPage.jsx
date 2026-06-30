@@ -33,7 +33,10 @@ export function AboutPage({ setPage }) {
              hi! i'm kate,<br />
             </h1>
             <p style={{ fontFamily: 'Outfit', fontSize: isMobile ? '15px' : '17px', color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '18px' }}>
-              I'm a student at UT Austin studying ECE and Business with interests in product and software. A love for creating and being told I was 'good' at math in elementary school brought me to pursue engineering. And, having side hustles since the 1st grade (from rainbow loom bracelets & duct tape wallets to an Etsy sticker shop), adding on a business major just felt right. 
+              I'm a student at UT Austin studying ECE and Business with interests in product and software engineering. A love for creating and being told I was 'good' at math in elementary school brought me to pursue engineering. And, having side hustles since the 1st grade (from rainbow loom bracelets & duct tape wallets to an Etsy sticker shop), adding on a business major just felt right. 
+            </p>
+            <p style={{ fontFamily: 'Outfit', fontSize: isMobile ? '15px' : '17px', color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '18px' }}>
+              
             </p>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: isMobile ? '0' : '20px' }}>

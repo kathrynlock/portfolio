@@ -1,13 +1,13 @@
 import { useState, useEffect, useRef } from 'react';
 import { useIsMobile } from '../hooks/useIsMobile';
 
-const PIN_ROTATIONS = [-2.4, 1.6, -1.1, 2.2, -1.8, 1.3];
+const PIN_ROTATIONS = [-2.4, 1.6, -2.2, 2.2, -1.8, 2.0];
 const ARENA_SLUG = 'with-love-pvhkjbfhfoq';
 const PHOTO_COUNT = 6;
 
-// col offsets for stagger: 3-col desktop (col 0,1,2) and 2-col mobile (col 0,1)
 const COL_OFFSET_DESKTOP = [0, 22, 11];
 const COL_OFFSET_MOBILE  = [0, 26];
+
 
 function pinKey(p) { return p.src || JSON.stringify(p); }
 
@@ -86,7 +86,6 @@ export function HeroPhotoGrid() {
 
   const cols = isMobile ? 2 : 3;
   const colOffsets = isMobile ? COL_OFFSET_MOBILE : COL_OFFSET_DESKTOP;
-
   return (
     <div style={{ display: 'grid', gridTemplateColumns: `repeat(${cols}, 1fr)`, gap: '10px', alignItems: 'start' }}>
       {Array.from({ length: PHOTO_COUNT }, (_, i) => {
@@ -110,7 +109,8 @@ export function HeroPhotoGrid() {
                 style={{
                   background: 'white',
                   borderRadius: '3px',
-                  padding: '6px 6px 11px',
+                  padding: '6px 6px 18px',
+                  paddingBottom: 0,
                   boxShadow: swapping
                     ? '2px 4px 12px rgba(58,47,74,0.08)'
                     : '5px 7px 18px rgba(58,47,74,0.13), 0 1px 3px rgba(58,47,74,0.05)',
@@ -120,6 +120,8 @@ export function HeroPhotoGrid() {
                   opacity: swapping ? 0 : 1,
                   transition: 'transform 0.55s cubic-bezier(0.34,1.56,0.64,1), opacity 0.45s ease, box-shadow 0.4s ease',
                   cursor: 'pointer',
+                  display: 'flex',
+                  flexDirection: 'column',
                 }}
               >
                 <img
@@ -134,16 +136,28 @@ export function HeroPhotoGrid() {
                     backgroundColor: 'var(--lavender-light)',
                   }}
                 />
-                {pin.caption && (
-                  <div style={{
-                    fontFamily: "'JetBrains Mono', monospace",
-                    fontSize: '7px', fontWeight: 500,
-                    letterSpacing: '0.12em', textTransform: 'uppercase',
-                    color: 'var(--text-light)',
-                    marginTop: '6px', textAlign: 'center',
-                    overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                  }}>{pin.caption}</div>
-                )}
+                <div style={{
+                  minHeight: '24px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  padding: '0 2px',
+                }}>
+                  {pin.caption && (
+                    <span style={{
+                      fontFamily: 'Outfit, sans-serif',
+                      fontSize: '10px',
+                      fontWeight: 500,
+                      color: 'var(--text-light)',
+                      textAlign: 'center',
+                      lineHeight: 1.4,
+                      display: '-webkit-box',
+                      WebkitLineClamp: 2,
+                      WebkitBoxOrient: 'vertical',
+                      overflow: 'hidden',
+                    }}>{pin.caption}</span>
+                  )}
+                </div>
               </div>
             ) : (
               <div style={{ aspectRatio: '1/1', background: 'var(--lavender-light)', borderRadius: '3px', opacity: 0.2 }} />

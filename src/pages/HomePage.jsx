@@ -14,20 +14,18 @@ export function HomePage({ setPage, tweaks }) {
   return (
     <div>
       <section style={{ minHeight: '100vh', padding: pad, position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}>
-        <div style={{ position: 'absolute', top: '-60px', right: '-80px', width: '420px', height: '420px', background: 'radial-gradient(circle, rgba(201,184,217,0.35) 0%, transparent 70%)', pointerEvents: 'none' }} />
-
-        <div style={{ maxWidth: '1140px', margin: '0 auto', width: '100%' }}>
+<div style={{ maxWidth: '1140px', margin: '0 auto', width: '100%' }}>
           {isMobile ? (
             <div style={{ opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(24px)', transition: 'all 0.9s cubic-bezier(0.22,1,0.36,1)' }}>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '11px', color: 'var(--blue)', marginBottom: '16px', letterSpacing: '0.18em', opacity: 0.85, textTransform: 'uppercase' }}>
-                ECE + Business · UT Austin
-              </div>
               <div style={{ marginBottom: '16px' }}>
                 <div style={{ fontFamily: "'Caveat', cursive", fontWeight: 600, fontSize: '28px', color: 'var(--text-mid)', lineHeight: 1, letterSpacing: '0.005em', marginBottom: '8px', transform: 'rotate(-3deg)', transformOrigin: 'left bottom', display: 'inline-block' }}>
                   hi, i'm
                 </div>
                 <div style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: '88px', fontWeight: 400, color: 'var(--lavender-mid)', lineHeight: 0.85, letterSpacing: '-0.01em' }}>
                   kate
+                </div>
+                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '11px', color: 'var(--blue)', marginBottom: '16px', letterSpacing: '0.18em', opacity: 0.85, textTransform: 'uppercase' }}>
+                  ECE + Business · UT Austin
                 </div>
               </div>
               <div style={{ background: 'white', borderRadius: '16px', padding: '14px 18px', border: '1.5px solid rgba(138,115,151,0.3)', boxShadow: '4px 4px 0px rgba(138,115,151,0.2)', marginBottom: '28px', display: 'inline-block' }}>
@@ -58,15 +56,15 @@ export function HomePage({ setPage, tweaks }) {
           ) : (
             <div style={{ display: 'grid', gridTemplateColumns: '0.75fr 1.25fr', gap: '40px', alignItems: 'center' }}>
               <div style={{ opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(24px)', transition: 'all 0.9s cubic-bezier(0.22,1,0.36,1)' }}>
-                <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '11px', color: 'var(--blue)', marginBottom: '24px', letterSpacing: '0.18em', opacity: 0.85, textTransform: 'uppercase' }}>
-                  ECE + Business · UT Austin
-                </div>
                 <div style={{ marginBottom: '22px' }}>
                   <div style={{ fontFamily: "'Caveat', cursive", fontWeight: 600, fontSize: '42px', color: 'var(--text-mid)', lineHeight: 1, letterSpacing: '0.005em', marginBottom: '14px', transform: 'rotate(-3deg)', transformOrigin: 'left bottom', display: 'inline-block' }}>
                     hi, i'm
                   </div>
                   <div style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: '168px', fontWeight: 400, color: 'var(--lavender-mid)', lineHeight: 0.9, letterSpacing: '-0.01em' }}>
                     kate
+                  </div>
+                  <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '11px', color: 'var(--blue)', marginBottom: '24px', letterSpacing: '0.18em', opacity: 0.85, textTransform: 'uppercase' }}>
+                    ECE + Business · UT Austin
                   </div>
                 </div>
                 <div style={{ background: 'white', borderRadius: '18px', padding: '16px 22px', border: '1.5px solid rgba(138,115,151,0.3)', boxShadow: '5px 5px 0px rgba(138,115,151,0.2)', marginBottom: '36px', display: 'inline-block' }}>
@@ -93,7 +91,7 @@ export function HomePage({ setPage, tweaks }) {
               <div style={{ opacity: vis ? 1 : 0, transition: 'opacity 1s ease 0.3s', marginLeft: '-32px' }}>
                 <div style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: '16px', color: 'var(--text-light)', letterSpacing: '0.3px', marginBottom: '18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <span>lately through my lens</span>
-                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', fontWeight: 500, color: 'var(--lavender-mid)', opacity: 0.55, letterSpacing: '0.1em' }}>click to shuffle ↻</span>
+                  <span style={{ fontFamily: 'Outfit, sans-serif', fontSize: '10px', fontWeight: 500, color: 'var(--lavender-mid)', opacity: 0.55 }}>click to shuffle ↻</span>
                 </div>
                 <HeroPhotoGrid />
               </div>
@@ -108,7 +106,6 @@ export function HomePage({ setPage, tweaks }) {
         <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '36px', flexWrap: 'wrap', gap: '16px' }}>
             <div>
-              <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '13px', color: 'var(--lavender-mid)', letterSpacing: '2px', marginBottom: '12px', opacity: 0.8 }}>SELECTED WORK</div>
               <h2 style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: isMobile ? '36px' : '48px', color: 'var(--text)', lineHeight: 1 }}>things i've made</h2>
             </div>
             <button onClick={() => setPage('projects')} style={{
