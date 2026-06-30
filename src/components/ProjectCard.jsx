@@ -31,17 +31,21 @@ export function ProjectCard({ p, onClick }) {
         pointerEvents: active ? 'none' : 'auto',
       }}>
         <div style={{ height: '110px', background: p.color, flexShrink: 0, position: 'relative', overflow: 'hidden' }}>
-          <svg width="100%" height="110" style={{ position: 'absolute', inset: 0 }} xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id={`pat-${p.id}`} x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
-                <rect width="16" height="16" fill="transparent" />
-                <rect x="0" y="0" width="4" height="4" fill="rgba(255,255,255,0.25)" />
-                <rect x="8" y="8" width="4" height="4" fill="rgba(255,255,255,0.25)" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="110" fill={`url(#pat-${p.id})`} />
-          </svg>
-          <div style={{ position: 'absolute', bottom: '12px', left: '18px', fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '8px', color: 'rgba(58,47,74,0.4)', letterSpacing: '1px' }}>{p.year}</div>
+          {p.hero ? (
+            <img src={p.hero} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          ) : (
+            <svg width="100%" height="110" style={{ position: 'absolute', inset: 0 }} xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <pattern id={`pat-${p.id}`} x="0" y="0" width="16" height="16" patternUnits="userSpaceOnUse">
+                  <rect width="16" height="16" fill="transparent" />
+                  <rect x="0" y="0" width="4" height="4" fill="rgba(255,255,255,0.25)" />
+                  <rect x="8" y="8" width="4" height="4" fill="rgba(255,255,255,0.25)" />
+                </pattern>
+              </defs>
+              <rect width="100%" height="110" fill={`url(#pat-${p.id})`} />
+            </svg>
+          )}
+          <div style={{ position: 'absolute', bottom: '12px', left: '18px', fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '8px', color: p.hero ? 'rgba(255,255,255,0.8)' : 'rgba(58,47,74,0.4)', letterSpacing: '1px' }}>{p.year}</div>
         </div>
         <div style={{ padding: '18px 22px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1 }}>
           <div>
