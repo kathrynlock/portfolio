@@ -109,7 +109,7 @@ export function HeroPhotoGrid() {
                 style={{
                   background: 'white',
                   borderRadius: '3px',
-                  padding: '6px 6px 18px',
+                  padding: '6px 6px 24px',
                   paddingBottom: 0,
                   boxShadow: swapping
                     ? '2px 4px 12px rgba(58,47,74,0.08)'
@@ -137,11 +137,10 @@ export function HeroPhotoGrid() {
                   }}
                 />
                 <div style={{
-                  minHeight: '24px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  padding: '0 2px',
+                  padding: '14px 4px',
                 }}>
                   {pin.caption && (
                     <span style={{
