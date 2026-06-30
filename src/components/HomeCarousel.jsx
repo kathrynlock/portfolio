@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useIsMobile } from '../hooks/useIsMobile';
-import { PROJECTS } from '../data';
+import { PROJECTS } from '../utils/content';
 
 export function HomeCarousel({ setPage }) {
   const [idx, setIdx] = useState(0);

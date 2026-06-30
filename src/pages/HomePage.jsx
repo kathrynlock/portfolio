@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useIsMobile } from '../hooks/useIsMobile';
 import { Divider } from '../components/Divider';
-import { ThoughtBubble } from '../components/ThoughtBubble';
+import { HeroPhotoGrid } from '../components/HeroPhotoGrid';
 import { HomeCarousel } from '../components/HomeCarousel';
-import { MoodBoard } from '../components/MoodBoard';
-import { THOUGHTS } from '../data';
 
 export function HomePage({ setPage, tweaks }) {
   const [vis, setVis] = useState(false);
@@ -53,16 +51,12 @@ export function HomePage({ setPage, tweaks }) {
               </div>
 
               <div style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: '15px', color: 'var(--text-light)', marginBottom: '16px' }}>
-                questions on my mind, recently
+                lately through my lens
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                {THOUGHTS.map((t, i) => (
-                  <ThoughtBubble key={i} thought={t} delay={(i + 1) * 500} floatAnim="float" posStyle={{}} />
-                ))}
-              </div>
+              <HeroPhotoGrid />
             </div>
           ) : (
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '60px', alignItems: 'center' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: '0.75fr 1.25fr', gap: '40px', alignItems: 'center' }}>
               <div style={{ opacity: vis ? 1 : 0, transform: vis ? 'none' : 'translateY(24px)', transition: 'all 0.9s cubic-bezier(0.22,1,0.36,1)' }}>
                 <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '11px', color: 'var(--blue)', marginBottom: '24px', letterSpacing: '0.18em', opacity: 0.85, textTransform: 'uppercase' }}>
                   ECE + Business · UT Austin
@@ -96,16 +90,12 @@ export function HomePage({ setPage, tweaks }) {
                 </div>
               </div>
 
-              <div style={{ position: 'relative', height: '480px', opacity: vis ? 1 : 0, transition: 'opacity 1s ease 0.3s' }}>
-                <div style={{ position: 'absolute', top: 0, left: '10px', fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: '16px', color: 'var(--text-light)', letterSpacing: '0.3px' }}>
-                  questions on my mind, recently
+              <div style={{ opacity: vis ? 1 : 0, transition: 'opacity 1s ease 0.3s', marginLeft: '-32px' }}>
+                <div style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: '16px', color: 'var(--text-light)', letterSpacing: '0.3px', marginBottom: '18px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span>lately through my lens</span>
+                  <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: '9px', fontWeight: 500, color: 'var(--lavender-mid)', opacity: 0.55, letterSpacing: '0.1em' }}>click to shuffle ↻</span>
                 </div>
-                <ThoughtBubble thought={THOUGHTS[0]} delay={500}  floatAnim="float"  posStyle={{ position: 'absolute', top: '50px',   left: '10px',  width: '250px' }} />
-                <ThoughtBubble thought={THOUGHTS[1]} delay={1000} floatAnim="floatB" posStyle={{ position: 'absolute', top: '185px',  right: '0px',  width: '260px' }} />
-                <ThoughtBubble thought={THOUGHTS[2]} delay={1600} floatAnim="floatC" posStyle={{ position: 'absolute', bottom: '40px', left: '50px', width: '265px' }} />
-                <div style={{ position: 'absolute', top: '10px', right: '10px', fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '9px', color: 'var(--lavender-mid)', opacity: 0.5, lineHeight: 1.8, textAlign: 'right', pointerEvents: 'none' }}>
-                  click bubbles<br />to reveal
-                </div>
+                <HeroPhotoGrid />
               </div>
             </div>
           )}
@@ -131,9 +121,6 @@ export function HomePage({ setPage, tweaks }) {
         </div>
       </section>
 
-      <Divider />
-
-      <MoodBoard />
     </div>
   );
 }

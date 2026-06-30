@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { useIsMobile } from '../hooks/useIsMobile';
 import { PATTERN_DEFS, patternKeyFor } from '../utils/patterns';
+import { BLOG_POSTS } from '../utils/content';
 
 /* ── DATA ──────────────────────────────────────────────────────── */
 const BLOG_TAGS = ['Journal', 'Behind the Scenes', 'Photography', 'Crafts', 'Sweet Treats', 'School Life', 'Lists', 'Notes'];
@@ -16,139 +17,43 @@ const TAG_COLOR = {
   'Notes':             { bg: 'var(--lavender-light)',  dark: 'var(--lavender-mid)' },
 };
 
-export const BLOG_POSTS = [
-  {
-    id: 1, slug: 'slow-mornings-slower-mail',
-    title: 'On Slow Mornings and Slower Mail',
-    date: '2026-04-22', readMins: 5,
-    tags: ['Journal'],
-    heroColor: 'var(--lavender-light)',
-    excerpt: 'There is a particular kind of joy in writing a letter you know will take six days to arrive.',
-    lead: 'I bought a new fountain pen last month and I have been writing letters again. Real ones. To my grandmother, mostly, and a friend I miss in Seattle, and one to my future self that I have been instructed not to open until December.',
-    pull: 'A letter is the only message you cannot edit after you send it. That is the whole point.',
-  },
-  {
-    id: 2, slug: 'building-this-site',
-    title: 'Building This Site (Behind the Scenes)',
-    date: '2026-03-30', readMins: 8,
-    tags: ['Behind the Scenes', 'Notes'],
-    heroColor: 'var(--yellow)',
-    excerpt: 'Notes on color palettes, paper grain, and the small choices that make a portfolio feel like a place.',
-    lead: 'I rebuilt this site four times before I let myself ship it. Here is what each version got wrong, what the final one finally got right, and the strange satisfaction of a paper-grain SVG noise filter at 6% opacity.',
-    pull: 'Most of design is just choosing what to leave out, then leaving out more.',
-  },
-  {
-    id: 3, slug: 'why-i-write-on-paper',
-    title: 'Why I Still Write Things on Paper',
-    date: '2026-03-11', readMins: 4,
-    tags: ['Journal', 'Notes'],
-    heroColor: 'var(--blue-light)',
-    excerpt: 'A small defense of notebooks, in an age where every idea wants a citation and a Notion page.',
-    lead: 'My phone holds infinite scratch space, and yet the best ideas I have had this semester live in a 4×6 Field Notes book in my backpack. There is something about the friction of a pen that lets a thought finish itself.',
-    pull: 'A notebook will never autocorrect your intuition into someone else’s sentence.',
-  },
-  {
-    id: 4, slug: 'a-year-of-film',
-    title: 'A Year of Film Photography',
-    date: '2026-02-18', readMins: 7,
-    tags: ['Photography'],
-    heroColor: '#E5D2CE',
-    excerpt: 'Twelve rolls, three cameras, one very confused CVS clerk. What I learned shooting only film for a year.',
-    lead: 'In January I put my digital camera in a drawer and made myself a rule: only film for one year. I expected to learn about light. I ended up learning about waiting, which turns out to be the actual skill.',
-    pull: 'You only really see a moment twice — once when you take the photo, and again when the prints come back in a yellow envelope.',
-  },
-  {
-    id: 5, slug: 'the-case-for-tiny-crafts',
-    title: 'The Case for Tiny Crafts',
-    date: '2026-01-27', readMins: 6,
-    tags: ['Crafts'],
-    heroColor: 'var(--mint)',
-    excerpt: 'Embroidery hoops, three-inch zines, miniature gardens. Why I keep gravitating toward projects that fit in my palm.',
-    lead: 'I started a 3-inch embroidery hoop two weeks ago and finished it last night, which is the fastest I have finished anything creative in months. There is a thesis in there about scope.',
-    pull: 'A finished tiny thing teaches you more than an abandoned grand thing.',
-  },
-  {
-    id: 6, slug: 'austin-bakery-list',
-    title: 'Bakery Hopping in Austin (a running list)',
-    date: '2025-12-14', readMins: 3,
-    tags: ['Sweet Treats', 'Lists'],
-    heroColor: 'var(--pink)',
-    excerpt: 'A working ranked list of every pastry I’ve tried in Austin since freshman orientation. Updated whenever I find a new one.',
-    lead: 'I keep a Note on my phone titled "Sweet Treat Survey" and it currently has 47 entries. I am moving it here so my friends will stop texting me for recommendations and so I can finally retire the screenshot.',
-    pull: 'The croissant is the test. Everything else is extra credit.',
-  },
-  {
-    id: 7, slug: 'four-years-on-etsy',
-    title: 'What I Learned Selling on Etsy for 4 Years',
-    date: '2025-11-02', readMins: 9,
-    tags: ['Behind the Scenes', 'Journal'],
-    heroColor: 'var(--yellow)',
-    excerpt: 'A thousand sales, a hundred mistakes, and the strange grief of closing a shop you started in high school.',
-    lead: 'I closed WithLoveKKate this spring after four years. I want to write about it before the details fade — the packing-tape muscle memory, the post office friendships, the time a custom order went missing in Vermont.',
-    pull: 'A small business is mostly the part where you walk to the post office.',
-  },
-  {
-    id: 8, slug: 'soldering-at-midnight',
-    title: 'Soldering Circuits at Midnight',
-    date: '2025-10-08', readMins: 5,
-    tags: ['School Life', 'Behind the Scenes'],
-    heroColor: 'var(--blue-light)',
-    excerpt: 'The ECE lab at 11:43pm, three burnt fingertips, and an LED that finally, mercifully, blinked.',
-    lead: 'It is a specific feeling to be alone in an engineering lab at midnight with a multimeter that disagrees with your assumptions. Everyone I know has had a version of this night. Here is mine, lovingly annotated.',
-    pull: 'A circuit will tell you exactly what is wrong if you are humble enough to ask twice.',
-  },
-  {
-    id: 9, slug: 'things-im-trying',
-    title: 'Things I’m Trying in 2026',
-    date: '2025-09-19', readMins: 4,
-    tags: ['Lists', 'Notes'],
-    heroColor: 'var(--lavender-light)',
-    excerpt: 'Less a resolutions post, more a permission slip. Twelve small experiments, in no particular order.',
-    lead: 'I do not really do resolutions. But I do keep a running list of small experiments — things I would like to try for a month or a week or just once — and I revisit it every few months to see what stuck.',
-    pull: 'The good experiments are the ones you forget you started.',
-  },
-  {
-    id: 10, slug: 'reading-list-spring',
-    title: 'Reading List: Spring',
-    date: '2025-08-05', readMins: 3,
-    tags: ['Lists'],
-    heroColor: 'var(--mint)',
-    excerpt: 'Six books, two essay collections, and one extremely strange novella I cannot stop recommending.',
-    lead: 'I keep a seasonal reading list mostly so I can prove to myself, at the end of the year, that I read more than I think I did. Here is the spring batch, with notes.',
-    pull: 'A book finished badly still teaches you what you do not want to read.',
-  },
-];
-
-const BLOG_BODY = [
-  'I have been thinking about this for a while, and I am still not sure I have arrived anywhere conclusive. That is partly the point of writing it down — to find out what I think by watching the sentence finish itself.',
-  'The first time I noticed this was probably in middle school, though I could not have named it then. It was the feeling of paying attention to something that did not require my attention, and finding that the attention itself was the thing I wanted.',
-  'There is a quote I keep coming back to, written by someone whose name I have written in three different notebooks and lost each time. It goes something like: the small thing, attended to, is no longer small.',
-  'I think this is also why I keep gravitating toward analog formats. Not out of nostalgia — I do not actually want to live in a previous decade — but because the limits feel honest. A pen runs out of ink. A roll of film has 36 frames. You cannot scroll a letter.',
-  'My friend Ana, who is much wiser than me about most things, says that constraints are a love language. She means it in the relationship sense, but I think it works for objects too. The way a notebook says: you only have this much room, so make it count.',
-  'I do not know how to end this neatly, so I will not try. The next post will probably contradict half of what I just said. That feels right. A blog is not a proof, it is a place to keep changing your mind in public.',
-];
-
 /* ── HELPERS ───────────────────────────────────────────────────── */
 function formatDate(iso) {
   return new Date(iso + 'T12:00:00').toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
 
-function HeroPattern({ color, h = 200, id, tag, variedPatterns }) {
+/**
+ * Shows a real image if `src` is provided, otherwise falls back to the
+ * SVG pattern placeholder. Add `hero: /blog/my-image.jpg` to a post's
+ * frontmatter to use a real photo.
+ */
+function HeroImage({ src, color, h = 200, patternId, tag, variedPatterns }) {
+  if (src) {
+    return (
+      <div style={{ height: `${h}px`, width: '100%', overflow: 'hidden' }}>
+        <img
+          src={src}
+          alt=""
+          style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+        />
+      </div>
+    );
+  }
   const key = variedPatterns ? patternKeyFor(tag) : null;
   const def = key && PATTERN_DEFS[key];
   return (
     <div style={{ background: color, height: `${h}px`, width: '100%', position: 'relative', overflow: 'hidden' }}>
       <svg width="100%" height={h} style={{ position: 'absolute', inset: 0 }} xmlns="http://www.w3.org/2000/svg">
         <defs>
-          {def ? def.render(id) : (
-            <pattern id={id} x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse">
+          {def ? def.render(patternId) : (
+            <pattern id={patternId} x="0" y="0" width="18" height="18" patternUnits="userSpaceOnUse">
               <rect width="18" height="18" fill="transparent"/>
               <rect x="0" y="0" width="4" height="4" fill="rgba(255,255,255,0.28)"/>
               <rect x="9" y="9" width="4" height="4" fill="rgba(255,255,255,0.28)"/>
             </pattern>
           )}
         </defs>
-        <rect width="100%" height={h} fill={`url(#${id})`}/>
+        <rect width="100%" height={h} fill={`url(#${patternId})`}/>
       </svg>
       <div style={{ position: 'absolute', bottom: '10px', right: '14px', fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '8px', color: 'rgba(58,47,74,0.4)', letterSpacing: '1.2px' }}>[ hero image ]</div>
     </div>
@@ -213,7 +118,7 @@ function LayoutPolaroid({ posts, onOpen, variedPatterns }) {
         const secondTape = (i % 3 === 0) ? TAPES[(i + 4) % TAPES.length] : null;
         return (
           <article
-            key={p.id}
+            key={p.slug}
             onClick={() => onOpen(p)}
             style={{
               background: 'white', padding: '14px 14px 22px',
@@ -228,7 +133,14 @@ function LayoutPolaroid({ posts, onOpen, variedPatterns }) {
           >
             <PolaroidTape tape={tape}/>
             {secondTape && <PolaroidTape tape={secondTape}/>}
-            <HeroPattern color={p.heroColor} h={170} id={`pol-${p.id}`} tag={p.tags?.[0]} variedPatterns={variedPatterns}/>
+            <HeroImage
+              src={p.hero}
+              color={p.heroColor}
+              h={170}
+              patternId={`pol-${p.slug}`}
+              tag={p.tags?.[0]}
+              variedPatterns={variedPatterns}
+            />
             <div style={{ padding: '16px 4px 0' }}>
               <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '8.5px', color: 'var(--lavender-mid)', letterSpacing: '1.8px', marginBottom: '8px' }}>
                 {formatDate(p.date).toUpperCase()}
@@ -254,7 +166,7 @@ function LayoutList({ posts, onOpen }) {
     <ul style={{ listStyle: 'none', padding: 0 }}>
       {posts.map((p, i) => (
         <li
-          key={p.id}
+          key={p.slug}
           onClick={() => onOpen(p)}
           style={{
             display: 'grid', gridTemplateColumns: '1fr auto',
@@ -285,18 +197,18 @@ function LayoutList({ posts, onOpen }) {
 /* ── BLOG INDEX ────────────────────────────────────────────────── */
 function BlogIndex({ openPost, variedPatterns }) {
   const isMobile = useIsMobile();
-  const [query, setQuery]       = useState('');
+  const [query, setQuery]         = useState('');
   const [activeTag, setActiveTag] = useState('all');
 
-  const sorted   = useMemo(() => [...BLOG_POSTS].sort((a, b) => b.date.localeCompare(a.date)), []);
+  // BLOG_POSTS is already sorted newest-first by the content loader
   const filtered = useMemo(() => {
-    return sorted.filter(p => {
+    return BLOG_POSTS.filter(p => {
       const matchTag = activeTag === 'all' || p.tags.includes(activeTag);
       const q = query.trim().toLowerCase();
       const matchQ = !q || p.title.toLowerCase().includes(q) || p.excerpt.toLowerCase().includes(q) || p.tags.join(' ').toLowerCase().includes(q);
       return matchTag && matchQ;
     });
-  }, [sorted, query, activeTag]);
+  }, [query, activeTag]);
 
   return (
     <div style={{ minHeight: '100vh', paddingTop: '90px' }}>
@@ -378,6 +290,56 @@ function BlogIndex({ openPost, variedPatterns }) {
   );
 }
 
+/* ── BLOG POST BODY ────────────────────────────────────────────── */
+/**
+ * Renders the markdown body (plain paragraphs separated by blank lines).
+ * - First paragraph gets the drop-cap treatment.
+ * - The pull-quote (from frontmatter) is inserted after the second paragraph.
+ */
+function PostBody({ body, pull }) {
+  const paragraphs = (body || '').split(/\n\n+/).filter(p => p.trim());
+  const [first, ...rest] = paragraphs;
+  const splitAt = Math.min(2, rest.length);
+
+  return (
+    <div style={{ fontFamily: "'EB Garamond', serif", fontSize: '19px', lineHeight: 1.78, color: 'var(--text)' }}>
+      {/* Lead paragraph with drop cap */}
+      {first && (
+        <p style={{ marginBottom: '24px' }}>
+          <span style={{
+            float: 'left', fontFamily: "'Newsreader', serif", fontWeight: 500,
+            fontSize: '76px', lineHeight: 0.85, padding: '8px 14px 0 0',
+            color: 'var(--lavender-mid)',
+          }}>{first.charAt(0)}</span>
+          {first.slice(1)}
+        </p>
+      )}
+
+      {/* First few body paragraphs */}
+      {rest.slice(0, splitAt).map((para, i) => (
+        <p key={i} style={{ marginBottom: '22px' }}>{para}</p>
+      ))}
+
+      {/* Pull quote from frontmatter */}
+      {pull && (
+        <blockquote style={{
+          margin: '40px 0 40px -20px', padding: '4px 0 4px 28px',
+          borderLeft: '3px solid var(--lavender-mid)',
+          fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontWeight: 400,
+          fontSize: '30px', lineHeight: 1.3, color: 'var(--text)',
+        }}>
+          &ldquo;{pull}&rdquo;
+        </blockquote>
+      )}
+
+      {/* Remaining paragraphs */}
+      {rest.slice(splitAt).map((para, i) => (
+        <p key={i + splitAt} style={{ marginBottom: '22px' }}>{para}</p>
+      ))}
+    </div>
+  );
+}
+
 /* ── BLOG POST PAGE ────────────────────────────────────────────── */
 function BlogPostPage({ post, openPost, back, variedPatterns }) {
   const [progress, setProgress] = useState(0);
@@ -394,11 +356,11 @@ function BlogPostPage({ post, openPost, back, variedPatterns }) {
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
     return () => window.removeEventListener('scroll', onScroll);
-  }, [post.id]);
+  }, [post.slug]);
 
   const related = useMemo(() =>
-    BLOG_POSTS.filter(p => p.id !== post.id && p.tags.some(t => post.tags.includes(t))).slice(0, 3),
-    [post.id]
+    BLOG_POSTS.filter(p => p.slug !== post.slug && p.tags.some(t => post.tags.includes(t))).slice(0, 3),
+    [post.slug]
   );
 
   return (
@@ -447,36 +409,17 @@ function BlogPostPage({ post, openPost, back, variedPatterns }) {
         </div>
 
         <div style={{ borderRadius: '24px', overflow: 'hidden', marginBottom: '48px', border: '2px solid rgba(255,255,255,0.9)', boxShadow: '6px 6px 0px rgba(58,47,74,0.08)' }}>
-          <HeroPattern color={post.heroColor} h={360} id={`post-hero-${post.id}`} tag={post.tags?.[0]} variedPatterns={variedPatterns}/>
+          <HeroImage
+            src={post.hero}
+            color={post.heroColor}
+            h={360}
+            patternId={`post-hero-${post.slug}`}
+            tag={post.tags?.[0]}
+            variedPatterns={variedPatterns}
+          />
         </div>
 
-        <div style={{ fontFamily: "'EB Garamond', serif", fontSize: '19px', lineHeight: 1.78, color: 'var(--text)' }}>
-          <p style={{ marginBottom: '24px' }}>
-            <span style={{
-              float: 'left', fontFamily: "'Newsreader', serif", fontWeight: 500,
-              fontSize: '76px', lineHeight: 0.85, padding: '8px 14px 0 0',
-              color: 'var(--lavender-mid)',
-            }}>{post.lead.charAt(0)}</span>
-            {post.lead.slice(1)}
-          </p>
-
-          {BLOG_BODY.slice(0, 2).map((para, i) => (
-            <p key={i} style={{ marginBottom: '22px' }}>{para}</p>
-          ))}
-
-          <blockquote style={{
-            margin: '40px 0 40px -20px', padding: '4px 0 4px 28px',
-            borderLeft: '3px solid var(--lavender-mid)',
-            fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontWeight: 400,
-            fontSize: '30px', lineHeight: 1.3, color: 'var(--text)',
-          }}>
-            "{post.pull}"
-          </blockquote>
-
-          {BLOG_BODY.slice(2).map((para, i) => (
-            <p key={i} style={{ marginBottom: '22px' }}>{para}</p>
-          ))}
-        </div>
+        <PostBody body={post.body} pull={post.pull} />
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '14px', margin: '56px 0 48px' }}>
           <div style={{ flex: 1, height: '1px', background: 'linear-gradient(to right, transparent, rgba(138,115,151,0.4), transparent)' }}/>
@@ -489,7 +432,7 @@ function BlogPostPage({ post, openPost, back, variedPatterns }) {
             <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '11px', color: 'var(--lavender-mid)', letterSpacing: '2px', marginBottom: '18px' }}>RELATED ENTRIES</div>
             <div style={{ display: 'grid', gridTemplateColumns: `repeat(${Math.min(related.length, 3)}, 1fr)`, gap: '16px' }}>
               {related.map(r => (
-                <div key={r.id} className="lift" onClick={() => openPost(r)} style={{
+                <div key={r.slug} className="lift" onClick={() => openPost(r)} style={{
                   background: 'white', borderRadius: '18px', padding: '18px 20px',
                   border: '1.5px solid rgba(255,255,255,0.9)',
                   boxShadow: '4px 4px 0px rgba(58,47,74,0.08)', cursor: 'pointer',

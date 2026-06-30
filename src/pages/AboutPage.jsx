@@ -29,17 +29,11 @@ export function AboutPage({ setPage }) {
           alignItems: 'center', marginBottom: isMobile ? '48px' : '80px',
         }}>
           <div>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontWeight: 500, fontSize: '12px', color: 'var(--blue)', marginBottom: '14px', letterSpacing: '1.5px', textTransform: 'uppercase' }}>hi, nice to meet you</div>
             <h1 style={{ fontFamily: "'Newsreader', serif", fontStyle: 'italic', fontSize: isMobile ? '44px' : '60px', color: 'var(--text)', lineHeight: 1.05, marginBottom: '28px' }}>
-              i'm kate,<br />
-              <span style={{ color: 'var(--lavender-mid)', fontFamily: "'Newsreader', serif", fontSize: isMobile ? '58px' : '80px', fontWeight: 400 }}>a curious</span><br />
-              creator
+             hi! i'm kate,<br />
             </h1>
             <p style={{ fontFamily: 'Outfit', fontSize: isMobile ? '15px' : '17px', color: 'var(--text-mid)', lineHeight: 1.85, marginBottom: '18px' }}>
-              I'm studying ECE and Business at UT Austin, but my real curriculum is figuring out how to make technology feel less like a tool and more like a friend.
-            </p>
-            <p style={{ fontFamily: 'Outfit', fontSize: isMobile ? '15px' : '17px', color: 'var(--text-mid)', lineHeight: 1.85 }}>
-              I'm obsessed with the intersection of product, design, and human experience. I believe the best tech sparks joy, reduces friction, and — if you're lucky — makes you smile.
+              I'm a student at UT Austin studying ECE and Business with interests in product and software. A love for creating and being told I was 'good' at math in elementary school brought me to pursue engineering. And, having side hustles since the 1st grade (from rainbow loom bracelets & duct tape wallets to an Etsy sticker shop), adding on a business major just felt right. 
             </p>
           </div>
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', paddingTop: isMobile ? '0' : '20px' }}>
